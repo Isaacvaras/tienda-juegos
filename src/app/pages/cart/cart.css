@@ -1,0 +1,30 @@
+.cart-wrapper {
+  background-color: #f3f4f6;
+  min-height: calc(100vh - 56px);
+}
+
+.cart-card {
+  border-radius: 1rem;
+}
+
+.cart-summary {
+  border-radius: 1rem;
+  position: sticky;
+  top: 6rem;
+}
+
+.table thead th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.table tbody td {
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+.btn-group .btn {
+  min-width: 2.2rem;
+}

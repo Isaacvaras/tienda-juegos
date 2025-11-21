@@ -1,12 +1,19 @@
-import { Component, signal } from '@angular/core';
-import { RouterLinkWithHref, RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { AuthService } from '../app/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,RouterLinkWithHref],
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, NgIf],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('Parcial');
+  constructor(public auth: AuthService) {}
+
+  logout() {
+    this.auth.logout();
+  }
 }

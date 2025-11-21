@@ -1,36 +1,54 @@
-<nav
-  class="navbar navbar-dark navbar-expand-lg fixed-top"
-  id="mainNav"
-  style="background-color: rgba(97, 110, 122, 0.75)"
->
-  
-</nav>
-<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-body-tertiary" style="background-color: rgba(0, 120, 233, 0.75);">
-  <div class="container-fluid">
-    <div class="container">
-    <a class="img-fluid" routerLink="home">
-      <img src="assets/Logo.png" alt="" width="100" height="100">
-    </a>
-  </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"style="background-color: red;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
+  <div class="container">
+
+    <a class="navbar-brand" routerLink="/home">TableroX</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav me-auto ms-2">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="home">Home</a>
+          <a class="nav-link" routerLink="/home">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="login">login</a>
+          <a class="nav-link" routerLink="/catalog">Catálogo</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="register">Registro</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="recuperar">Olvide contraseña</a>
+          <a class="nav-link" routerLink="/cart">Carrito</a>
         </li>
       </ul>
+
+      <!-- Si está logueado -->
+      <ul class="navbar-nav ms-auto align-items-center" *ngIf="auth.isLoggedIn(); else notLogged">
+        <li class="nav-item text-light me-3">
+          Hola, <strong>{{ auth.getCurrentUser()?.nombre }}</strong>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">
+            Cerrar sesión
+          </button>
+        </li>
+      </ul>
+
+      <!-- Si NO está logueado -->
+      <ng-template #notLogged>
+        <ul class="navbar-nav ms-auto gap-2">
+          <li class="nav-item">
+            <a class="btn btn-outline-light btn-sm" routerLink="/login">Iniciar sesión</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary btn-sm" routerLink="/register">Registrarse</a>
+          </li>
+        </ul>
+      </ng-template>
+
     </div>
   </div>
 </nav>
-<router-outlet></router-outlet>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
