@@ -15,7 +15,6 @@ export class Direccion {
   distrito: string = '';
   recogerTienda: boolean = false;
 
-  // Lista limitada, pero fácil de actualizar
   districts: string[] = [
     'Miraflores',
     'San Isidro',
@@ -38,7 +37,7 @@ export class Direccion {
       recogerTienda: this.recogerTienda
     });
 
-    // luego de guardar dirección, lo mandamos al carrito o resumen
+   
     this.router.navigate(['/cart']);
   }
 }

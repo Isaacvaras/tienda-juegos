@@ -5,19 +5,19 @@
       Regístrate para comenzar a armar tu colección de juegos de mesa 🎲
     </p>
 
-    <!-- Alert de error -->
+
     <div *ngIf="showError" class="alert alert-danger register-alert" role="alert">
       {{ errorMessage }}
     </div>
 
-    <!-- Alert de éxito -->
+ 
     <div *ngIf="showSuccess" class="alert alert-success register-alert" role="alert">
       Cuenta creada correctamente. Redirigiendo al inicio de sesión...
     </div>
 
     <form [formGroup]="RegisterForm" (ngSubmit)="registrar()">
 
-      <!-- Nombre -->
+   
       <div class="mb-3">
         <label for="nombre" class="form-label">Nombre completo</label>
         <input
@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <!-- Correo -->
+   
       <div class="mb-3">
         <label for="correo" class="form-label">Correo electrónico</label>
         <input
@@ -58,7 +58,7 @@
         </div>
       </div>
 
-      <!-- Contraseña -->
+ 
       <div class="mb-3">
         <label for="password" class="form-label">Contraseña</label>
         <input
@@ -81,7 +81,6 @@
         </div>
       </div>
 
-      <!-- Confirmar contraseña -->
       <div class="mb-3">
         <label for="confirmar" class="form-label">Confirmar contraseña</label>
         <input
@@ -104,7 +103,7 @@
         </div>
       </div>
 
-      <!-- Términos -->
+   
       <div class="form-check mb-3">
         <input
           id="terminos"
@@ -124,7 +123,7 @@
         </div>
       </div>
 
-      <!-- Botón -->
+  
       <button type="submit" class="btn btn-primary w-100 register-btn">
         Crear cuenta
       </button>

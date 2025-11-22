@@ -1,6 +1,6 @@
-/* Fondo general del login */
+
 .login-wrapper {
-  min-height: calc(100vh - 56px); /* para no chocar con el navbar si es fijo */
+  min-height: calc(100vh - 56px); 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,7 +8,7 @@
   background: radial-gradient(circle at top, #4f46e5 0, #111827 55%);
 }
 
-/* Tarjeta del formulario */
+
 .login-card {
   width: 100%;
   max-width: 420px;
@@ -18,7 +18,7 @@
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
 }
 
-/* Título y subtítulo */
+
 .login-title {
   font-size: 1.6rem;
   font-weight: 700;
@@ -33,7 +33,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* Inputs */
+
 .form-label {
   font-weight: 500;
   font-size: 0.9rem;
@@ -51,4 +51,4 @@
   box-shadow: 0 0 0 0.15rem rgba(79, 70, 229, 0.15);
 }
 
-/* Estado inválido (Bootstrap + validación angular) */
+

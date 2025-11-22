@@ -50,7 +50,6 @@ export class Cart {
       return;
     }
 
-    // Aquí podrías validar dirección, etc.
     alert('Compra realizada. ¡Gracias por tu pedido!');
     this.cartService.clear();
   }

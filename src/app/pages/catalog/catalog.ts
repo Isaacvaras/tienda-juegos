@@ -32,7 +32,7 @@ export class Catalog {
 
   addToCart(game: Game) {
     if (!this.authService.isLoggedIn()) {
-      // historia: solo si está registrado / logueado puede comprar
+    
       this.router.navigate(['/login']);
       return;
     }

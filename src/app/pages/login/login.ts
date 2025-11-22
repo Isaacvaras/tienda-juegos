@@ -41,7 +41,7 @@ export class Login {
     const correo = this.LoginForm.value.correo!;
     const contraseña = this.LoginForm.value.contraseña!;
 
-    // 🔥 Aquí usamos tu AuthService
+  
     const logged = this.auth.login(correo, contraseña);
 
     if (!logged) {
@@ -50,7 +50,6 @@ export class Login {
       return;
     }
 
-    // Si llega aquí, el login fue exitoso
     this.router.navigate(['/home']);
   }
 }

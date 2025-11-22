@@ -57,7 +57,7 @@ export class Register {
       nombre: this.RegisterForm.value.nombre!,
       correo: this.RegisterForm.value.correo!,
       contraseña: this.RegisterForm.value.contraseña!,
-      // address se quedará undefined hasta que llene dirección al comprar
+
     } as any);
 
     if (!success) {

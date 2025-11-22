@@ -13,7 +13,7 @@
   overflow: hidden;
 }
 
-/* Categorías */
+
 .home-category-card {
   border: none;
   background-color: #ffffff;
@@ -26,7 +26,6 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* Juegos destacados */
 .home-game-card {
   border-radius: 1rem;
   overflow: hidden;
@@ -44,6 +43,6 @@
 }
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  filter: invert(1); /* Invierte los colores → blanco → negro */
+  filter: invert(1); 
 }
 

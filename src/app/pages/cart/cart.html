@@ -3,12 +3,12 @@
 
     <h1 class="h4 mb-3">Carrito de compras</h1>
 
-    <!-- Si no hay productos -->
+
     <div *ngIf="items.length === 0" class="alert alert-info">
       Tu carrito está vacío. Ve al catálogo para agregar juegos.
     </div>
 
-    <!-- Tabla de productos -->
+
     <div *ngIf="items.length > 0" class="row g-4">
       <div class="col-lg-8">
         <div class="card shadow-sm cart-card">
@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of items">
-                    <!-- Nombre -->
+    
                     <td>
                       <div class="fw-semibold">{{ item.name }}</div>
                       <div class="small text-muted">
@@ -37,7 +37,7 @@
                       </div>
                     </td>
 
-                    <!-- Cantidad -->
+    
                     <td class="text-center">
                       <div class="btn-group btn-group-sm" role="group">
                         <button type="button" class="btn btn-outline-secondary"
@@ -50,12 +50,12 @@
                       </div>
                     </td>
 
-                    <!-- Precio base -->
+        
                     <td class="text-end">
                       S/ {{ item.price * item.quantity | number:'1.2-2' }}
                     </td>
 
-                    <!-- Producto frágil -->
+      
                     <td class="text-center">
                       <div class="form-check d-inline-block">
                         <input
@@ -68,7 +68,6 @@
                       </div>
                     </td>
 
-                    <!-- Envoltura extra -->
                     <td class="text-center">
                       <div class="form-check d-inline-block">
                         <input
@@ -85,12 +84,11 @@
                       </div>
                     </td>
 
-                    <!-- Subtotal (incluye envoltura si aplica) -->
                     <td class="text-end fw-semibold">
                       S/ {{ cartService.getItemTotal(item) | number:'1.2-2' }}
                     </td>
 
-                    <!-- Quitar -->
+   
                     <td class="text-end">
                       <button type="button"
                               class="btn btn-sm btn-outline-danger"
@@ -107,7 +105,7 @@
         </div>
       </div>
 
-      <!-- Resumen -->
+ 
       <div class="col-lg-4">
         <div class="card shadow-sm cart-summary">
           <div class="card-body">

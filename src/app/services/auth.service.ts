@@ -6,7 +6,7 @@ import { User, Address } from '../models/user';
   providedIn: 'root',
 })
 export class AuthService {
-  // Usuarios de ejemplo + los que se registren
+
   private users: User[] = [{ correo: 'admin@gmail.com', nombre: 'admin', contraseña: 'admin123' }];
 
   private currentUser: User | null = null;
@@ -20,7 +20,7 @@ export class AuthService {
 
   register(user: User): boolean {
     const exists = this.users.some((u) => u.correo === user.correo);
-    if (exists) return false; // ya existe
+    if (exists) return false; 
 
     this.users.push(user);
     this.currentUser = user;
@@ -59,13 +59,13 @@ export class AuthService {
     return this.getCurrentUser() !== null;
   }
 
-  // Guardar o actualizar dirección
+
   saveAddress(address: Address): void {
     const user = this.getCurrentUser();
     if (!user) return;
     user.address = address;
 
-    // actualizar en la lista y en localStorage
+
     const idx = this.users.findIndex((u) => u.correo === user.correo);
     if (idx !== -1) {
       this.users[idx] = user;
