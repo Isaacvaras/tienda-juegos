@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User, Address } from '../models/user';
+import { JsonPipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-
-  private users: User[] = [{ correo: 'admin@gmail.com', nombre: 'admin', contraseña: 'admin123' }];
+  private users: User[] = [
+    { correo: 'admin@gmail.com', nombre: 'admin', contraseña: 'admin123', addresses: [] },
+  ];
 
   private currentUser: User | null = null;
 
@@ -20,7 +22,8 @@ export class AuthService {
 
   register(user: User): boolean {
     const exists = this.users.some((u) => u.correo === user.correo);
-    if (exists) return false; 
+    if (exists) return false;
+    user.addresses = [];
 
     this.users.push(user);
     this.currentUser = user;
@@ -58,23 +61,31 @@ export class AuthService {
   isLoggedIn(): boolean {
     return this.getCurrentUser() !== null;
   }
-
-
   saveAddress(address: Address): void {
     const user = this.getCurrentUser();
     if (!user) return;
-    user.address = address;
 
-
-    const idx = this.users.findIndex((u) => u.correo === user.correo);
-    if (idx !== -1) {
-      this.users[idx] = user;
+    if (!user.addresses) {
+      user.addresses = []; 
     }
+
+    user.addresses.push(address); 
+
+    const el = this.users.findIndex((u) => u.correo === user.correo);
+    if (el !== -1) {
+      this.users[el] = user;
+    }
+
+    localStorage.setItem('currentUser', JSON.stringify(user));
     localStorage.setItem('users', JSON.stringify(this.users));
   }
 
-  hasAddress(): boolean {
-    const user = this.getCurrentUser();
-    return !!(user && user.address);
-  }
+ hasAddress(): boolean {
+  const user = this.getCurrentUser();
+  return !!(user && user.addresses && user.addresses.length > 0);
+}
+  getAddresses(): Address[] {
+  const user = this.getCurrentUser();
+  return user?.addresses ?? [];
+}
 }

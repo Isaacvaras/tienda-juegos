@@ -1,5 +1,5 @@
 export interface Address {
-  calle: String;
+  calle: string;
   distrito: string;
   recogerTienda: boolean;
 }
@@ -7,5 +7,5 @@ export interface User {
   correo: string;
   nombre: string;
   contraseña: string;
-  address?: Address;
+  addresses?: Address[];
 }

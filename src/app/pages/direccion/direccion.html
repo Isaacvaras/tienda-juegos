@@ -1,62 +1,64 @@
-<div class="container py-4">
-  <h1 class="h4 mb-3">Datos de envío</h1>
-  <p class="text-muted">
-    Es tu primera compra, por favor ingresa tu dirección.
-  </p>
+<div class="direccion-wrapper">
+  <div class="direccion-card">
+    <h1 class="h5 mb-3 text-center">Nueva dirección</h1>
+    <p class="text-muted small text-center mb-4">
+      Puedes registrar una dirección para envío o marcar recojo en tienda.
+    </p>
 
-  <form (ngSubmit)="onSubmit()">
-
-    <!-- Calle -->
-    <div class="mb-3">
-      <label class="form-label" for="calle">Calle y número</label>
-      <input
-        id="calle"
-        class="form-control"
-        [(ngModel)]="calle"
-        name="calle"
-        required
-      >
-    </div>
-
-    <!-- Distrito (lista limitada) -->
-    <div class="mb-3">
-      <label class="form-label" for="distrito">Distrito</label>
-      <select
-        id="distrito"
-        class="form-select"
-        [(ngModel)]="distrito"
-        name="distrito"
-        required
-      >
-        <option value="">Selecciona un distrito</option>
-        <option *ngFor="let d of districts" [ngValue]="d">
-          {{ d }}
-        </option>
-      </select>
-    </div>
+ 
+    <form (ngSubmit)="guardarDireccion()">
 
 
-    <div class="mb-3" *ngIf="distrito">
-      <div class="form-check">
+      <div class="mb-3">
+        <label class="form-label" for="calle">Calle y número</label>
+        <input
+          id="calle"
+          class="form-control"
+          name="calle"
+          [(ngModel)]="calle"
+          placeholder="Av. Los Próceres 123"
+        >
+        <div class="form-text small">
+          Obligatorio solo si el envío es a domicilio.
+        </div>
+      </div>
+
+
+      <div class="mb-3">
+        <label class="form-label" for="distrito">Distrito</label>
+        <select
+          id="distrito"
+          class="form-select"
+          name="distrito"
+          [(ngModel)]="distrito"
+        >
+          <option value="">Selecciona un distrito</option>
+          <option *ngFor="let d of districts" [ngValue]="d">
+            {{ d }}
+          </option>
+        </select>
+        <div class="form-text small">
+          Obligatorio solo si el envío es a domicilio.
+        </div>
+      </div>
+
+     
+      <div class="mb-3 form-check">
         <input
           id="recogerTienda"
           type="checkbox"
           class="form-check-input"
-          [(ngModel)]="recogerTienda"
           name="recogerTienda"
+          [(ngModel)]="recogerTienda"
         >
         <label class="form-check-label" for="recogerTienda">
           Prefiero recoger mi pedido en la tienda
         </label>
       </div>
-      <small class="text-muted">
-        Disponible para distritos dentro del área de atención.
-      </small>
-    </div>
 
-    <button class="btn btn-primary" type="submit">
-      Guardar dirección y continuar
-    </button>
-  </form>
+      <button type="submit" class="btn btn-primary w-100">
+        Guardar dirección
+      </button>
+    </form>
+  </div>
 </div>
-
