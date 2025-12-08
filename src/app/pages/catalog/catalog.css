@@ -1,30 +1,103 @@
-.card-img-top {
-  width: 100%;
-  height: 150px;
-  object-fit: contain;
-  object-position: center;
+/* Fondo general */
+.catalog-wrapper {
+  background: #f4f6f8;
+  min-height: calc(100vh - 60px);
 }
 
-.card {
-  transition: transform 0.2s;
-  font-size: 0.9rem;
+/* Títulos */
+.catalog-title {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+.catalog-subtitle {
+  color: #6b7280;
+  margin-bottom: 2rem;
 }
 
-.card-title {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
+/* Grid tipo tienda */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.5rem;
 }
 
-.card-text {
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
-}
-
-.card-body {
+/* Card */
+.product-card {
+  background: #ffffff;
+  border-radius: 14px;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen */
+.image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+}
+
+.image-container img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Badge categoría */
+.badge-category {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(17, 24, 39, 0.85);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Info */
+.product-info {
+  flex-grow: 1;
+}
+
+.product-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.4rem 0;
+}
+
+.product-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #16a34a;
+  margin-bottom: 0.25rem;
+}
+
+/* Stock */
+.product-stock {
+  font-size: 0.85rem;
+  color: #15803d;
+}
+
+.product-stock.out {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* Botón */
+.product-card button {
+  margin-top: 0.75rem;
+  border-radius: 10px;
+  font-weight: 600;
 }

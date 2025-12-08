@@ -5,6 +5,7 @@ import { NgFor } from '@angular/common';
 
 import { AuthService } from '../../services/auth.service';
 import { Address } from '../../models/user';
+import { Alerts } from '../../utils/alerts';
 
 @Component({
   selector: 'app-direccion',
@@ -35,7 +36,7 @@ export class Direccion {
   guardarDireccion() {
     if (!this.recogerTienda) {
       if (!this.calle.trim() || !this.distrito.trim()) {
-        alert('Para envío a domicilio debes ingresar calle y distrito.');
+        Alerts.warning('Para envío a domicilio debes ingresar calle y distrito.');
         return;
       }
     }
@@ -48,7 +49,7 @@ export class Direccion {
 
     this.auth.saveAddress(nuevaDireccion);
 
-    alert('Dirección guardada correctamente');
+    Alerts.success('Dirección guardada correctamente');
     this.router.navigate(['/cart']);
   }
 }

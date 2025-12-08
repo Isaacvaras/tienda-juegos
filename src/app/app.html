@@ -1,9 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
   <div class="container">
-
     <a class="navbar-brand" routerLink="/home">TableroX</a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNavbar"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -18,21 +22,20 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/cart">Carrito</a>
         </li>
+        <li *ngIf="auth.isAdmin()" class="nav-item">
+          <a class="nav-link" routerLink="/administracion">Admin</a>
+        </li>
       </ul>
-
 
       <ul class="navbar-nav ms-auto align-items-center" *ngIf="auth.isLoggedIn(); else notLogged">
         <li class="nav-item text-light me-3">
           Hola, <strong>{{ auth.getCurrentUser()?.nombre }}</strong>
         </li>
         <li class="nav-item">
-          <button class="btn btn-outline-light btn-sm" (click)="logout()">
-            Cerrar sesión
-          </button>
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">Cerrar sesión</button>
         </li>
       </ul>
 
-  
       <ng-template #notLogged>
         <ul class="navbar-nav ms-auto gap-2">
           <li class="nav-item">
@@ -43,7 +46,6 @@
           </li>
         </ul>
       </ng-template>
-
     </div>
   </div>
 </nav>
@@ -51,4 +53,3 @@
 <main>
   <router-outlet></router-outlet>
 </main>
-

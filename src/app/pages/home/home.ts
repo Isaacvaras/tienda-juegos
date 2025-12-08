@@ -5,7 +5,7 @@ import { NgIf, NgFor } from '@angular/common';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, NgIf, NgFor],
+  imports: [RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

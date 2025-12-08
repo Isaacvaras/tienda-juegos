@@ -9,6 +9,7 @@ import { JsonPipe } from '@angular/common';
 export class AuthService {
   private users: User[] = [
     { correo: 'admin@gmail.com', nombre: 'admin', contraseña: 'admin123', addresses: [] },
+    { correo: 'usuario@gmail.com', nombre: 'usuarioprueba', contraseña: 'usuario123', addresses: [] },
   ];
 
   private currentUser: User | null = null;
@@ -88,4 +89,9 @@ export class AuthService {
   const user = this.getCurrentUser();
   return user?.addresses ?? [];
 }
+isAdmin(): boolean {
+  const user = this.getCurrentUser();
+  return !!(user && user.correo === 'admin@gmail.com');
+}
+
 }

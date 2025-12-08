@@ -6,17 +6,19 @@ import { Router, RouterLink } from '@angular/router';
 import { CartService, CartItem } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { Address } from '../../models/user';
+import { PurchaseService } from '../../services/purchase.service';
+import { ProductService } from '../../services/product.services';
+import { Alerts } from '../../utils/alerts';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [NgFor, NgIf, DecimalPipe, FormsModule, RouterLink],
+  imports: [NgFor, NgIf, DecimalPipe, FormsModule],
   templateUrl: './cart.html',
-  styleUrl: './cart.css'
+  styleUrl: './cart.css',
 })
 export class Cart {
-
-    selectedAddressIndex: number | null = null;
+  selectedAddressIndex: number | null = null;
   selectedPaymentMethod: string = '';
   showCardModal: boolean = false;
   showWalletModal: boolean = false;
@@ -26,108 +28,95 @@ export class Cart {
     number: '',
     holder: '',
     expiry: '',
-    cvv: ''
+    cvv: '',
   };
   cashData = {
     phone: '',
     dni: '',
-    acceptTerms: false
+    acceptTerms: false,
   };
 
   walletQRImages: { [key: string]: string } = {
-    'yape': 'assets/qr-yape.jpg',
-    'plin': 'assets/qr-plin.avif',
-    'pagoefectivo': 'assets/qr-pagoefectivo.png'
+    yape: 'assets/qr-yape.jpg',
+    plin: 'assets/qr-plin.avif',
+    pagoefectivo: 'assets/qr-pagoefectivo.png',
   };
   constructor(
     public cartService: CartService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private purchaseService: PurchaseService,
+    private productService: ProductService
   ) {
-  
     if (this.addresses.length > 0) {
       this.selectedAddressIndex = 0;
     }
   }
 
-  
   get items(): CartItem[] {
     return this.cartService.getItems();
   }
 
- 
   get total(): number {
     return this.cartService.getTotal();
   }
-
 
   get extraWrapPrice(): number {
     return this.cartService.extraWrapPrice;
   }
 
-
   get addresses(): Address[] {
     return this.auth.getAddresses();
   }
 
-  
   onQuantityChange(item: CartItem, delta: number) {
     const newQty = item.quantity + delta;
     this.cartService.updateQuantity(item, newQty);
   }
-
 
   onFragileChange(item: CartItem, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     this.cartService.setFragile(item, checked);
   }
 
-
   onExtraWrapChange(item: CartItem, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     this.cartService.setExtraWrap(item, checked);
   }
-
-
   quitarItem(item: CartItem) {
     this.cartService.removeItem(item);
   }
-
-
   irADireccion() {
     this.router.navigate(['/direccion']);
   }
 
-
-finalizarCompra() {
+  finalizarCompra() {
     if (this.items.length === 0) {
-      alert('Tu carrito está vacío.');
+      Alerts.warning('Tu carrito está vacío.');
       return;
     }
 
     if (this.addresses.length === 0 || this.selectedAddressIndex === null) {
-      alert('Selecciona o agrega una dirección antes de comprar.');
+      Alerts.warning('Selecciona o agrega una dirección antes de comprar.');
       return;
     }
+    
 
     if (!this.selectedPaymentMethod) {
-      alert('Selecciona un método de pago.');
+      Alerts.warning('Selecciona un método de pago.');
       return;
     }
 
-  
     if (this.selectedPaymentMethod === 'tarjeta') {
       this.showCardModal = true;
       return;
     }
 
-    
     if (this.selectedPaymentMethod === 'billetera') {
       this.showWalletModal = true;
       return;
     }
 
-    
     if (this.selectedPaymentMethod === 'contraentrega') {
       this.showCashModal = true;
       return;
@@ -142,14 +131,18 @@ finalizarCompra() {
       number: '',
       holder: '',
       expiry: '',
-      cvv: ''
+      cvv: '',
     };
   }
 
   procesarPagoTarjeta() {
-  
-    if (!this.cardData.number || !this.cardData.holder || !this.cardData.expiry || !this.cardData.cvv) {
-      alert('Por favor completa todos los datos de la tarjeta.');
+    if (
+      !this.cardData.number ||
+      !this.cardData.holder ||
+      !this.cardData.expiry ||
+      !this.cardData.cvv
+    ) {
+      Alerts.warning('Por favor completa todos los datos de la tarjeta.');
       return;
     }
 
@@ -169,7 +162,7 @@ finalizarCompra() {
 
   confirmarPagoBilletera() {
     if (!this.selectedWallet) {
-      alert('Por favor selecciona una billetera digital.');
+      Alerts.warning('Por favor selecciona una billetera digital.');
       return;
     }
 
@@ -183,18 +176,18 @@ finalizarCompra() {
     this.cashData = {
       phone: '',
       dni: '',
-      acceptTerms: false
+      acceptTerms: false,
     };
   }
 
   confirmarContraentrega() {
     if (!this.cashData.phone || !this.cashData.dni) {
-      alert('Por favor completa todos los campos.');
+      Alerts.warning('Por favor completa todos los campos.');
       return;
     }
 
     if (!this.cashData.acceptTerms) {
-      alert('Debes aceptar los términos y condiciones.');
+      Alerts.warning('Debes aceptar los términos y condiciones.');
       return;
     }
 
@@ -207,10 +200,22 @@ finalizarCompra() {
     const direccionElegida = this.addresses[this.selectedAddressIndex!];
     console.log('Compra realizada con envío a:', direccionElegida);
     console.log('Método de pago:', this.selectedPaymentMethod);
+    const user = this.auth.getCurrentUser();
+    if (!user) {
+      Alerts.warning('Debes iniciar sesión para comprar.');
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.purchaseService.addPurchase(user, this.items, direccionElegida, this.total);
 
-    alert('Compra realizada. ¡Gracias por tu pedido!');
+    this.productService.decreaseStockForItems(
+      this.items.map((item) => ({
+        id: item.id,
+        quantity: item.quantity,
+      }))
+    );
+    Alerts.success('Compra realizada. ¡Gracias por tu pedido!');
     this.cartService.clear();
     this.selectedPaymentMethod = '';
   }
 }
-
