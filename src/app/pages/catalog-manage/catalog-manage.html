@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <!-- Formulario para añadir nuevo juego -->
+ 
   <div class="card mb-4" *ngIf="isAdding">
     <div class="card-header bg-success text-white">
       <h5 class="mb-0">Añadir Nuevo Juego</h5>
@@ -51,7 +51,7 @@
     </div>
   </div>
 
-  <!-- Lista de juegos con opción de editar -->
+ 
   <div class="row">
     <div class="col-12">
       <h4 class="mb-3">Juegos en Catálogo</h4>
@@ -59,7 +59,7 @@
     <div class="col-md-6 mb-3" *ngFor="let game of games">
       <div class="card" [class.border-primary]="editingGame?.id === game.id">
         <div class="card-body">
-          <!-- Vista normal -->
+        
           <div *ngIf="!editingGame || editingGame.id !== game.id">
             <div class="row">
               <div class="col-4">
@@ -82,7 +82,7 @@
             </div>
           </div>
 
-          <!-- Vista de edición -->
+         
           <div *ngIf="editingGame && editingGame.id === game.id">
             <h5 class="text-primary mb-3">Editando Juego</h5>
             <form (ngSubmit)="saveGame()">

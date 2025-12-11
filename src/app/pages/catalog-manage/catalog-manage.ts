@@ -35,7 +35,7 @@ export class CatalogManage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Verificar que sea administrador
+    
     const currentUser = this.authService.currentUserData();
     if (currentUser?.correo !== 'admin@gmail.com') {
       this.router.navigate(['/catalog']);

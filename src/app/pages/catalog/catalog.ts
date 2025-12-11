@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { ProductService, Product } from '../../services/product.services';
 import { LogService } from '../../services/log.service';
-import { FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-catalog',
@@ -23,7 +23,7 @@ export class Catalog implements OnInit {
   isAdmin: boolean = false;
   showAddForm: boolean = false;
   editingGame: Product | null = null;
-  
+
   newGame = {
     name: '',
     price: 0,
@@ -40,18 +40,36 @@ export class Catalog implements OnInit {
     private productService: ProductService,
     private logService: LogService,
     private router: Router
-  ) {
-    this.products = this.productService.getProducts();
-    this.categories = ['Todas', ...new Set(this.products.map((p) => p.category))];
-  }
+  ) {}
 
   ngOnInit(): void {
     this.checkAdminRole();
+    this.loadProductsFromApi(); 
   }
 
   private checkAdminRole(): void {
     const currentUser = this.authService.currentUserData();
     this.isAdmin = currentUser?.correo === 'admin@gmail.com';
+  }
+
+  private loadProductsFromApi(): void {
+    this.productService.fetchProductsFromApi().subscribe({
+      next: (data: Product[]) => {
+        this.productService.setProductsFromApi(data);  // actualiza servicio + localStorage
+        this.products = this.productService.getProducts();
+        this.refreshCategories();
+        console.log('Productos cargados desde API:', this.products);
+      },
+      error: (err: any) => {
+        console.error('Error al cargar productos desde la API, usando productos locales:', err);
+        this.products = this.productService.getProducts();
+        this.refreshCategories();
+      }
+    });
+  }
+
+  private refreshCategories(): void {
+    this.categories = ['Todas', ...Array.from(new Set(this.products.map(p => p.category)))];
   }
 
   addToCart(product: Product) {
@@ -76,23 +94,24 @@ export class Catalog implements OnInit {
       price: product.price,
     });
   }
-get filteredProducts() {
-  let result = this.products;
 
-  if (this.selectedCategory !== 'Todas') {
-    result = result.filter(
-      p => p.category === this.selectedCategory
-    );
+  get filteredProducts() {
+    let result = this.products;
+
+    if (this.selectedCategory !== 'Todas') {
+      result = result.filter(
+        p => p.category === this.selectedCategory
+      );
+    }
+
+    if (this.searchText.trim()) {
+      result = result.filter(p =>
+        p.name.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    }
+
+    return result;
   }
-
-  if (this.searchText.trim()) {
-    result = result.filter(p =>
-      p.name.toLowerCase().includes(this.searchText.toLowerCase())
-    );
-  }
-
-  return result;
-}
 
   toggleAddForm(): void {
     this.showAddForm = !this.showAddForm;
@@ -128,6 +147,7 @@ get filteredProducts() {
     );
 
     this.products = this.productService.getProducts();
+    this.refreshCategories();
     this.resetNewGame();
     this.showAddForm = false;
   }
@@ -168,6 +188,7 @@ get filteredProducts() {
     );
 
     this.products = this.productService.getProducts();
+    this.refreshCategories();
     this.cancelEditing();
   }
 
@@ -185,6 +206,7 @@ get filteredProducts() {
         );
         
         this.products = this.productService.getProducts();
+        this.refreshCategories();
         
         if (this.editingGame?.id === game.id) {
           this.cancelEditing();
@@ -200,5 +222,8 @@ get filteredProducts() {
   navigateToReviews(): void {
     this.router.navigate(['/reviews']);
   }
+
+
+
 
 }
